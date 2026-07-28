@@ -2,14 +2,14 @@
 
 Raspberry Pi Gesture Engine & Transparent Overlay Kiosk
 
-A lightweight, real-time hand gesture tracking and visual feedback overlay system engineered for interactive kiosks (Raspberry Pi or desktop). The project runs as two cooperating Python processes: a headless gesture engine that performs webcam capture and hand landmark extraction, and a transparent PyQt overlay that renders a skeleton and dwell-to-click UI over the OS display.
+A lightweight, real-time hand gesture tracking and visual feedback overlay system engineered for interactive kiosks (Raspberry Pi or desktop). The project runs as two cooperating Python processes: a headless gesture engine that captures webcam frames, runs MediaPipe hand landmark detection, and streams JSON over a WebSocket; and a transparent overlay client that receives the stream and renders a click-through PyQt5 overlay.
 
 Key features
 
 - Real-time 21-landmark hand tracking (MediaPipe HandLandmarker)
 - Low-latency WebSocket JSON stream between processes
 - Transparent, click-through PyQt5 overlay with isotropic auto-scaling
-- Dwell-to-click FSA with ghost protection and cooldown
+- Dwell-to-click finite state automaton (FSA) with ghost protection and cooldown
 - Lighting normalization (CLAHE, gamma) and tremor filtering (OneEuro / EMA)
 - Designed to run on Raspberry Pi and standard Linux desktops (X11)
 
@@ -24,16 +24,16 @@ Requirements
 
 Installation
 
-1. Create a virtual environment and activate it:
+1. Create and activate a virtual environment:
 
    python -m venv .venv
    source .venv/bin/activate
 
-2. Install dependencies (example):
+2. Install Python dependencies:
 
    pip install -r requirements.txt
 
-Note: Requirements can be tailored for a specific platform (Raspberry Pi builds may need system packages).
+Note: Requirements can be tailored for a specific platform (Raspberry Pi builds may need additional system packages such as libatlas, libjpeg-dev, ffmpeg, or platform-specific wheels).
 
 Quick start
 
@@ -45,7 +45,7 @@ Quick start
 
   python overlay.py
 
-Both components support CLI configuration flags and environment variables for camera index, resolution, WebSocket host/port, and tuning parameters (see the system_architecture_report.md for defaults and configuration reference).
+Both components support CLI configuration flags and environment variables for camera index, resolution, WebSocket host/port, and tuning parameters. See system_architecture_report.md for default values and more details.
 
 Configuration
 
@@ -66,11 +66,15 @@ Project layout
 
 Contributing
 
-Contributions welcome. Please open issues for bugs or feature requests and create small, focused pull requests. Include platform and hardware details (Raspberry Pi model, OS version, camera model) when reporting issues.
+Contributions welcome. Please open issues for bugs or feature requests and create small, focused pull requests. When opening issues or PRs, include platform and hardware details (Raspberry Pi model, OS version, camera model). If you plan to contribute code, follow these guidelines:
+
+- Fork the repository and create a feature branch for your changes.
+- Keep changes small and focused; include tests where appropriate.
+- Document runtime requirements and configuration changes.
 
 License
 
-This repository does not include a license file by default. If you want to adopt a license, add a LICENSE file (e.g., MIT) and update this README.
+This repository does not include a license file by default. If you want to adopt a license, add a LICENSE file (for example, an MIT license) and update this README to reference it.
 
 Contact
 
